@@ -15,7 +15,7 @@ data Dibujo a = Vacia
                 | rot45 (Dibujo a)
                 | rotar (Dibujo a)                
                 deriving (Eq, Show)
-
+--Comentario
 -- NO sabemos si estas irian en el data Dibujo a.
 -- | (^^^) (Dibujo a) (Dibujo a)
 -- | (///) (Dibujo a) (Dibujo a)
