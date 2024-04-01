@@ -20,6 +20,7 @@ data Dibujo a = Vacia
 -- | (^^^) (Dibujo a) (Dibujo a)
 -- | (///) (Dibujo a) (Dibujo a)
 -- | (.-.) (Dibujo a) (Dibujo a)
+-- Hay que agregar estas
 
 -- combinadores
 infixr 6 ^^^
