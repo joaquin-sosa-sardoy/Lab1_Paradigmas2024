@@ -4,6 +4,10 @@ module Interp
   )
 where
 
+type Output a = a -> Vector -> Vector -> Vector -> Picture
+interp :: Output a -> Output (Dibujo a)
+import Graphics.Gloss.Data.Vector
+
 import Dibujo
 import FloatingPic
 import Graphics.Gloss (Display (InWindow), color, display, makeColorI, pictures, translate, white, Picture)
@@ -26,8 +30,9 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
 ov :: Picture -> Picture -> Picture
 ov p q = undefined
 
+-- "V" viene de import qualified Graphic.Gloss.Data.Point.Arithmetic
 r45 :: FloatingPic -> FloatingPic
-r45 = undefined
+r45 f x y z = f(x V. + half(y V.+ z)) (half(y V.+ z) (half(z V.-y)))
 
 rot :: FloatingPic -> FloatingPic
 rot = undefined

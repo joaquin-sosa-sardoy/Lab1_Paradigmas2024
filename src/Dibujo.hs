@@ -2,25 +2,22 @@ module Dibujo (encimar, figura, juntar, rot45, rotar, espejar, (.-.), (///), (^^
 
 -- nuestro lenguaje 
 data Figura = Triangulo Float Float Float | Rectangulo Float Float Float | Circulo Float Float Float deriving(Eq, Show)
-at
 
 
-
-data Dibujo a = Vacia 
-                | figura a 
-                | encimar (Dibujo a) (Dibujo a) 
-                | apilar Float Float (Dibujo a) (Dibujo a) 
-                | juntar Float Float (Dibujo a) (Dibujo a) 
-                | espejar (Dibujo a)
-                | rot45 (Dibujo a)
-                | rotar (Dibujo a)                
+data Dibujo a =  Figura a
+                | Encimar (Dibujo a) (Dibujo a) 
+                | Apilar Float Float (Dibujo a) (Dibujo a) 
+                | Juntar Float Float (Dibujo a) (Dibujo a) 
+                | Espejar (Dibujo a)
+                | Rot45 (Dibujo a)
+                | Rotar (Dibujo a)  
+                | (^^^) (Dibujo a) (Dibujo a)
+                | (///) (Dibujo a) (Dibujo a)
+                | (.-.) (Dibujo a) (Dibujo a)             
                 deriving (Eq, Show)
---Comentario De prueba
--- NO sabemos si estas irian en el data Dibujo a.
--- | (^^^) (Dibujo a) (Dibujo a)
--- | (///) (Dibujo a) (Dibujo a)
--- | (.-.) (Dibujo a) (Dibujo a)
--- Hay que agregar estas
+
+-- Figura toma "a" ?
+-- Las ultimas 3 funciones van asi?
 
 -- combinadores
 infixr 6 ^^^
@@ -29,7 +26,6 @@ infixr 7 .-.
 
 infixr 8 ///
 
--- 
 -- Composición n-veces de una función con sí misma. Componer 0 veces
 -- es la función identidad, componer 1 vez es aplicar la función 1 vez, etc.
 -- Componer negativamente es un error!
@@ -42,54 +38,54 @@ comp n f x = comp (n-1) f (f(x))
 -- Funciones constructoras
 
 figura :: a -> Dibujo a
-figura a (x,y,z) = undefined
+figura = Figura
 
 encimar :: Dibujo a -> Dibujo a -> Dibujo a
-encimar a (a,b,c) b (d,f,g) = 
+encimar = Encimar
 
 apilar :: Float -> Float -> Dibujo a -> Dibujo a -> Dibujo a
-apilar = undefined
+apilar = Apilar
 
 juntar  :: Float -> Float -> Dibujo a -> Dibujo a -> Dibujo a
 juntar = Juntar
 
 rot45 :: Dibujo a -> Dibujo a
-rot45 = undefined
+rot45 = Rot45
 
 rotar :: Dibujo a -> Dibujo a
-rotar [f,a,b,c] = [a,b,c]
+rotar = Rotar
 
 
 espejar :: Dibujo a -> Dibujo a
-espejar = undefined
+espejar = Espejar
 
 -- Fin De Funciones Constructoras
 
 -- Superpone un dibujo con otro. ENCIMAR
 (^^^) :: Dibujo a -> Dibujo a -> Dibujo a
-(^^^) a b = encimar a b
+(^^^) = Encimar
 
 --Pone el primer dibujo arriba del segundo, ambos ocupan el mismo espacio. APILAR
 (.-.) :: Dibujo a -> Dibujo a -> Dibujo a
-(.-.) a b = apilar 1 1 a b
+(.-.) = Apilar
  
 -- Pone un dibujo al lado del otro, ambos ocupan el mismo espacio. JUNTAR
 (///) :: Dibujo a -> Dibujo a -> Dibujo a
-(///) a b = juntar 1 1 a b
+(///) = Juntar
 
 -- rotaciones
 r90 :: Dibujo a -> Dibujo a
-r90 a = rotar a
+r90 a = Rotar a
 
 r180 :: Dibujo a -> Dibujo a
-r180 = comp 2 rotar a
+r180 = comp 2 Rotar a
 
 r270 :: Dibujo a -> Dibujo a
-r270 = comp 3 rotar a
+r270 = comp 3 Rotar a
 
 -- una figura repetida con las cuatro rotaciones, superimpuestas.
 encimar4 :: Dibujo a -> Dibujo a
-encimar4 a = (^^^)(a , (^^^)(rotar(a), (^^^)(rotar(rotar a), rotar(rotar(rotar a)))))
+encimar4 a = (^^^)(a , (^^^)(Rotar(a), (^^^)(Rotar(Rotar a), Rotar(Rotar(Rotar a)))))
 
 -- cuatro figuras en un cuadrante.
 cuarteto :: Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a
@@ -97,7 +93,7 @@ cuarteto p q r s = (.-.) ((///) (p,q), (///) (r,s))
 
 -- un cuarteto donde se repite la imagen, rotada (¡No confundir con encimar4!)
 ciclar :: Dibujo a -> Dibujo a
-ciclar a = cuarteto (a, rotar (a), rotar(rotar a), (rotar (rotar a)))
+ciclar a = cuarteto (a, Rotar (a), Rotar(Rotar a), (Rotar (Rotar a)))
 
 -- map para nuestro lenguaje
 mapDib :: (a -> b) -> Dibujo a -> Dibujo b
@@ -127,6 +123,41 @@ foldDib ::
   Dibujo a ->
   b
 foldDib = undefined
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- DE MIENTRAS COMENTO ACA Y LUEGO BORRAMOS:
