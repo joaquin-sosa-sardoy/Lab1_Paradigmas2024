@@ -10,14 +10,14 @@ data Dibujo a =  Figura a
                 | Juntar Float Float (Dibujo a) (Dibujo a) 
                 | Espejar (Dibujo a)
                 | Rot45 (Dibujo a)
-                | Rotar (Dibujo a)  
-                | (^^^) (Dibujo a) (Dibujo a)
-                | (///) (Dibujo a) (Dibujo a)
-                | (.-.) (Dibujo a) (Dibujo a)             
+                | Rotar (Dibujo a)             
                 deriving (Eq, Show)
 
--- Figura toma "a" ?
--- Las ultimas 3 funciones van asi?
+--"a" toma un tipo generico
+-- Despues deberiamos ver que 'a' concreto va a tomar.
+-- Puede ser un entero, bool, etc.
+-- Puedo asociar el True a un triangulo y False a un circulo. (o sea, solo podremos codificar 2)
+
 
 -- combinadores
 infixr 6 ^^^
@@ -86,6 +86,7 @@ r270 = comp 3 Rotar a
 -- una figura repetida con las cuatro rotaciones, superimpuestas.
 encimar4 :: Dibujo a -> Dibujo a
 encimar4 a = (^^^)(a , (^^^)(Rotar(a), (^^^)(Rotar(Rotar a), Rotar(Rotar(Rotar a)))))
+-- Esto es lo mismo que (^^^) a ((^^^)(r90 a) (r180 a)) (r270 a))
 
 -- cuatro figuras en un cuadrante.
 cuarteto :: Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a
@@ -124,6 +125,8 @@ foldDib ::
   b
 foldDib = undefined
 
+
+-- Falta mapDib, folDib y change, el resto OK! Corregido por el profe Facu Bustos
 
 
 

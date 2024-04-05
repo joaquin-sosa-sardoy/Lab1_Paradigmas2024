@@ -33,9 +33,11 @@ ov p q = undefined
 -- "V" viene de import qualified Graphic.Gloss.Data.Point.Arithmetic
 r45 :: FloatingPic -> FloatingPic
 r45 f x y z = f(x V. + half(y V.+ z)) (half(y V.+ z) (half(z V.-y)))
+--r45 = rotar 45
+--Es válido?
 
 rot :: FloatingPic -> FloatingPic
-rot = undefined
+rot = rotar
 
 esp :: FloatingPic -> FloatingPic
 esp = undefined
