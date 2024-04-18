@@ -1,25 +1,26 @@
 module Main (main) where
 
-import Dibujos.Ejemplo (ejemploConf)
+--import Dibujos.Ejemplo (ejemploConf)
 import Dibujos.Feo (feoConf)
-import Dibujos.Cuadrados(cuadConf)
+import Dibujos.Atomo (atomoConf)
+--import Dibujos.Cuadrados(cuadConf)
 import FloatingPic (Conf (..))
 import Interp (initial)
 import System.Environment (getArgs)
 import System.Exit (exitFailure, exitSuccess)
 import Control.Monad (when)
-import InterpHaha (ConfH, simpleHaha, initialH')
-import InterpSVG (ConfSVG, initialSVG', simpleSVG)
+--import InterpHaha (ConfH, simpleHaha, initialH')
+--import InterpSVG (ConfSVG, initialSVG', simpleSVG)
 
 -- Lista de configuraciones de los dibujos
 configs :: [Conf]
-configs = [ejemploConf, feoConf,cuadConf 3]
+configs = [atomoConf]
 
-configsH :: [ConfH]
-configsH = map (\(Conf n p _) -> simpleHaha n p) configs
+--configsH :: [ConfH]
+--configsH = map (\(Conf n p _) -> simpleHaha n p) configs
 
-configsSVG :: [ConfSVG]
-configsSVG = map (\(Conf n p _) -> simpleSVG n p) configs
+--configsSVG :: [ConfSVG]
+--configsSVG = map (\(Conf n p _) -> simpleSVG n p) configs
 
 -- Dibuja el dibujo n
 initial' :: [Conf] -> String -> IO ()
@@ -42,10 +43,10 @@ main = do
     putStrLn "Los dibujos disponibles son:"
     mapM_ (putStrLn . name) configs
     exitSuccess
-  when (head args == "-a" && not (null $ tail args)) $ do
-    initialH' configsH (args!!1) 
-    exitSuccess
-  when (head args == "-s" && not (null $ tail args)) $ do
-    initialSVG' configsSVG (args!!1) 
-    exitSuccess
+  --when (head args == "-a" && not (null $ tail args)) $ do
+    --initialH' configsH (args!!1) 
+    --exitSuccess
+  --when (head args == "-s" && not (null $ tail args)) $ do
+    --initialSVG' configsSVG (args!!1) 
+    --exitSuccess
   initial' configs $ head args

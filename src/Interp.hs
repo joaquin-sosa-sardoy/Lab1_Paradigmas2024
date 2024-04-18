@@ -4,10 +4,6 @@ module Interp
   )
 where
 
-type Output a = a -> Vector -> Vector -> Vector -> Picture
-interp :: Output a -> Output (Dibujo a)
-import Graphics.Gloss.Data.Vector
-
 import Dibujo
 import FloatingPic
 import Graphics.Gloss (Display (InWindow), color, display, makeColorI, pictures, translate, white, Picture)
@@ -28,28 +24,28 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
 
 -- Interpretación de (^^^)
 ov :: Picture -> Picture -> Picture
-ov p q = undefined
+ov p q = pictures[p,q]
 
 -- "V" viene de import qualified Graphic.Gloss.Data.Point.Arithmetic
 r45 :: FloatingPic -> FloatingPic
-r45 f x y z = f(x V. + half(y V.+ z)) (half(y V.+ z) (half(z V.-y)))
---r45 = rotar 45
---Es válido?
+r45 f d w h = f(d V.+ half(w V.+ h)) (half(w V.+ h)) (half(h V.- w))
 
 rot :: FloatingPic -> FloatingPic
-rot = rotar
+rot f d w h = f(d V.+ w) h (V.negate w)
 
+--Espejar
 esp :: FloatingPic -> FloatingPic
-esp = undefined
+esp f d w h = f(d V.+ w) (V.negate w) h
 
+--Encimar
 sup :: FloatingPic -> FloatingPic -> FloatingPic
-sup = undefined
+sup f g d w h = pictures [f d w h , g d w h]
 
 jun :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
-jun = undefined
+jun m n f1 f2 d w h = pictures [f1 d ((m/(m+n)) V.* w) h  , f2 (d V.+ ((m/(n+m))V.* w)) ((n/(n+m)) V.* w) h] --Falta hacer
 
 api :: Float -> Float -> FloatingPic -> FloatingPic -> FloatingPic
-api = undefined
+api m n f g d w h = pictures [f (d V.+ (n/(m+n)V.*h)) w ((m/(n+m)) V.* h) , g d w ((n/(n+m) V.* h))]
 
-interp :: Output a -> Output (Dibujo a)
-interp b = undefined
+interp :: Output a -> Output (Dibujo a)  -- Traducir las funciones de dibujo.hs a las de vectores que estan arriba de esta
+interp f b = foldDib f rot esp r45 api jun sup b
